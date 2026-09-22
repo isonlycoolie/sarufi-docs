@@ -244,7 +244,7 @@ Once your web integration is created you get a `widget_key` (format: `wk_...`). 
 
 | Attribute | Required | Description |
 |---|---|---|
-| `src` | yes | Widget script URL - `https://beta.sarufi.io/widget.js` |
+| `src` | yes | Widget script URL - `https://sarufi.io/widget.js` |
 | `data-widget-key` | yes | Your `wk_...` key from the integration |
 | `data-server-url` | no | Override the backend origin (useful for self-hosted deployments) |
 | `async` | recommended | Loads the script without blocking page rendering |
@@ -255,7 +255,7 @@ Once your web integration is created you get a `widget_key` (format: `wk_...`). 
 <body>
   <!-- your page content -->
   <script
-    src="https://beta.sarufi.io/widget.js"
+    src="https://sarufi.io/widget.js"
     data-widget-key="wk_YOUR_WIDGET_KEY"
     async
   ></script>
@@ -278,7 +278,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         <Script
-          src="https://beta.sarufi.io/widget.js"
+          src="https://sarufi.io/widget.js"
           data-widget-key="wk_YOUR_WIDGET_KEY"
           strategy="lazyOnload"
         />
@@ -303,7 +303,7 @@ export function SarufiWidget() {
     if (document.querySelector('script[data-widget-key]')) return;
 
     const script = document.createElement("script");
-    script.src = "https://beta.sarufi.io/widget.js";
+    script.src = "https://sarufi.io/widget.js";
     script.setAttribute("data-widget-key", "wk_YOUR_WIDGET_KEY");
     script.async = true;
     document.body.appendChild(script);
@@ -324,7 +324,7 @@ export function useSarufiWidget(widgetKey: string) {
     if (document.querySelector('script[data-widget-key]')) return;
 
     const script = document.createElement("script");
-    script.src = "https://beta.sarufi.io/widget.js";
+    script.src = "https://sarufi.io/widget.js";
     script.setAttribute("data-widget-key", widgetKey);
     script.async = true;
     document.body.appendChild(script);
@@ -347,7 +347,7 @@ export class AppComponent implements OnInit {
     if (this.document.querySelector('script[data-widget-key]')) return;
 
     const script = this.document.createElement("script");
-    script.src = "https://beta.sarufi.io/widget.js";
+    script.src = "https://sarufi.io/widget.js";
     script.setAttribute("data-widget-key", "wk_YOUR_WIDGET_KEY");
     script.async = true;
     this.document.body.appendChild(script);
@@ -364,7 +364,7 @@ If you use Angular Universal, wrap the script injection in an `isPlatformBrowser
 ```php
 <?php
 function sarufi_widget_script() {
-    echo '<script src="https://beta.sarufi.io/widget.js"
+    echo '<script src="https://sarufi.io/widget.js"
                data-widget-key="wk_YOUR_WIDGET_KEY"
                async></script>';
 }
@@ -377,7 +377,7 @@ Open `layout/theme.liquid` in **Online Store → Themes → Edit code** and past
 
 ```liquid
 <script
-  src="https://beta.sarufi.io/widget.js"
+  src="https://sarufi.io/widget.js"
   data-widget-key="wk_YOUR_WIDGET_KEY"
   async
 ></script>
@@ -435,7 +435,7 @@ Pass extra visitor metadata that agents see in the conversation context panel. U
 
 ```html
 <script
-  src="https://beta.sarufi.io/widget.js"
+  src="https://sarufi.io/widget.js"
   data-widget-key="wk_YOUR_WIDGET_KEY"
   async
 ></script>
