@@ -104,7 +104,7 @@ const data = await response.json();
     "name": "My Workspace"
   },
   "api_key": {
-    "key": "sk-...",
+    "key": "sk_live_...",
     "created_at": "2026-01-15T10:00:00Z"
   }
 }
@@ -132,12 +132,15 @@ All endpoints are organized under the path `/api/dev/v1`.
 
 ## Rate limits
 
-| Operation | Limit |
-|---|---|
-| Reads | 1 request / second |
-| Writes / Updates | 1 request / 2 seconds |
+Limits are counted per API key, in three separate buckets. Every endpoint in a bucket shares that bucket's count.
 
-If you exceed the limit you receive `429 Too Many Requests`. The `Retry-After` header indicates how many seconds to wait.
+| Bucket | Endpoints | Limit |
+|---|---|---|
+| Reads | Every `GET` (workspace, chatbots, flows, conversations, integrations, knowledge bases, analytics) | 60 requests per 60 seconds |
+| Writes | Every `POST`, `PUT`, `PATCH` and `DELETE` on those resources, including publishing a flow and sending an outbound message | 30 requests per 60 seconds |
+| Chat | Creating a chat session and sending a message to it ([Chat API](./chat)) | 600 requests per 60 seconds |
+
+If you exceed a limit you receive `429 Too Many Requests` with `detail` `Too many requests. Please try again later.` and a `Retry-After` header giving the seconds to wait.
 
 ---
 

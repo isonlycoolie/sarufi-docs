@@ -46,7 +46,7 @@ curl -X GET "https://developers.sarufi.io/api/dev/v1/chatbots/<chatbot-id>/conve
       "id": "01JPQ...",
       "chatbot_id": "01JMXYZ...",
       "user_phone": "+255712345678",
-      "contact_name": "John",
+      "contact_name": "Lorem Ipsum",
       "channel": "whatsapp",
       "status": "ACTIVE",
       "last_message_id": "01JRS...",
@@ -104,24 +104,43 @@ curl -X GET "https://developers.sarufi.io/api/dev/v1/chatbots/<chatbot-id>/conve
 
 **Response - 200 OK**
 
+The wrapper carries `count`, `total`, `page`, `limit`, `pages`, `next_cursor` and `messages`. Each entry in `messages` is one stored turn. The `response.messages` array holds the same shapes as the [Chat API send-message response](./chat#message-shapes).
+
 ```json
 {
-  "count": 2,
+  "count": 1,
+  "total": 1,
+  "page": 1,
+  "limit": 25,
+  "pages": 1,
+  "next_cursor": null,
   "messages": [
     {
-      "id": "01JRS...",
-      "conversation_id": "01JPQ...",
-      "message": { "text": "Hello, I need help with my order" },
-      "response": { "text": "Hi! I'd be happy to help. What's your order number?" },
+      "id": "01K5M2Q8Z7C3V9R1T4Y6W0B2NF",
+      "conversation_id": "01K5M2Q8Z7C3V9R1T4Y6W0B2NE",
+      "message": { "text": "hi" },
+      "response": {
+        "messages": [
+          { "type": "TEXT", "text": "Lorem ipsum dolor sit amet, welcome!" },
+          {
+            "type": "BUTTONS",
+            "text": "Choose an option.",
+            "buttons": [
+              { "id": "view_products", "title": "Products" },
+              { "id": "support_menu", "title": "Support" }
+            ]
+          }
+        ]
+      },
       "message_type": "text",
       "responder": "BOT",
-      "received_at": "2026-02-18T14:22:05Z",
-      "responded_at": "2026-02-18T14:22:06Z",
+      "received_at": "2026-09-22T10:40:01+00:00",
+      "responded_at": "2026-09-22T10:40:02+00:00",
       "status": "delivered",
-      "created_at": "2026-02-18T14:22:05Z"
+      "created_at": "2026-09-22T10:40:01+00:00",
+      "media": null
     }
-  ],
-  "next_cursor": null
+  ]
 }
 ```
 
@@ -150,16 +169,21 @@ curl -X GET "https://developers.sarufi.io/api/dev/v1/chatbots/<chatbot-id>/conve
 
 | Field | Type | Description |
 |---|---|---|
-| `id` | string | Message ULID. |
+| `id` | string | ULID of the turn. |
 | `conversation_id` | string | Parent conversation ID. |
-| `message` | object \| null | User input payload. |
-| `response` | object \| null | System response payload. |
-| `message_type` | string | Message type (e.g. `text`, `image`, `document`). |
+| `message` | object \| null | What the user sent. |
+| `response` | object \| null | What the bot replied. Its `messages` array holds the same shapes as the [Chat API send-message response](./chat#message-shapes). |
+| `message_type` | string | Type of the user's message. |
 | `responder` | string | Who responded: `BOT` or `HUMAN`. |
-| `received_at` | string | When the user message was received. |
-| `responded_at` | string \| null | When the response was sent. |
-| `status` | string | Message delivery status. |
-| `created_at` | string | When the record was created. |
+| `received_at` | string | ISO 8601. When the user message was received. |
+| `responded_at` | string \| null | ISO 8601. When the response was sent. |
+| `status` | string | Message status. Includes the WhatsApp delivery tick once one arrives. |
+| `created_at` | string | ISO 8601. When the record was created. |
+| `media` | object \| null | Media the **user** sent: `type`, `url`, `mime_type`, `caption`, `filename`, `transcript`. Never describes bot messages. |
+
+:::note[Older history rows]
+Rows recorded before 2026-09-22 may contain combined bot messages. See [History of combined messages](./chat#history-of-combined-messages) for how they are returned.
+:::
 
 :::info[Want to chat with your bot via API?]
 Use the [Chat API](./chat) to create sessions and send messages programmatically. Conversations created via the Chat API appear here with `channel=api`.
